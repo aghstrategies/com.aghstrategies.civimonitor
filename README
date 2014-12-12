@@ -1,0 +1,14 @@
+This is a CiviCRM extension to make it possible for a Nagios monitoring system to track the functioning of a CiviCRM site.  Initially, services tracked are:
+- whether CiviCRM is up-to-date
+- how recently cron has run
+
+This relies on a version server to determine if CiviCRM is up-to-date.  As of writing, there is nothing public that can deliver the detailed status for a given version.  For the time being, it's suggested that you set up a site that can accept a version number and retun a JSON array with two items:
+- an exit code of 0, 1, 2, or 3 corresponding to Nagios statuses of OK, Warning, Critical, and Unknown
+- a comment explaining what's going on
+
+An ideal version status site would evaluate both current-version and LTS series, displaying whether a version is up-to-date (return OK), has newer ones available (return Warning), or has a security release (return Critical).
+
+After installing this extension, copy check_civicrm.php to your Nagios server, set up commands calling:
+- /usr/bin/php /usr/lib/nagios/plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ cron
+- /usr/bin/php /usr/lib/nagios/plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ version
+and then services for the appropriate host(s) and/or hostgroup(s) that call those commands.
