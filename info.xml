@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<extension key="com.aghstrategies.civimonitor" type="module">
+  <file>civimonitor</file>
+  <name>CiviCRM Monitoring for Nagios</name>
+  <description>Provides information for Nagios monitoring</description>
+  <license>AGPL-3.0</license>
+  <maintainer>
+    <author>Andrew Hunt</author>
+    <email>andrew@aghstrategies.com</email>
+  </maintainer>
+  <releaseDate>2014-12-11</releaseDate>
+  <version>1.0</version>
+  <develStage>stable</develStage>
+  <compatibility>
+    <ver>4.4</ver>
+    <ver>4.5</ver>
+  </compatibility>
+  <civix>
+    <namespace>CRM/Civimonitor</namespace>
+  </civix>
+</extension>
