@@ -11,6 +11,9 @@
   <releaseDate>2014-12-11</releaseDate>
   <version>1.0</version>
   <develStage>stable</develStage>
+  <urls>
+    <url desc="documentation">https://github.com/aghstrategies/com.aghstrategies.civimonitor</url>
+  </urls>
   <compatibility>
     <ver>4.4</ver>
     <ver>4.5</ver>
