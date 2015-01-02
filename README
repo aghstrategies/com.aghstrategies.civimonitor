@@ -12,3 +12,10 @@ After installing this extension, copy check_civicrm.php to your Nagios server, s
 - /usr/bin/php /usr/lib/nagios/plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ cron
 - /usr/bin/php /usr/lib/nagios/plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ version
 and then services for the appropriate host(s) and/or hostgroup(s) that call those commands.
+
+Release Notes
+-------------
+
+1.1 - use the version system at latest.civicrm.org rather than having to provide your own version info
+
+1.0 - initial version
