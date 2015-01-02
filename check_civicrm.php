@@ -20,9 +20,6 @@
  * _api_key   {an api key set on the civicrm_contact row corresponding to an admin user}
  */
 
-//server providing version status
-$vstatus_server = '';
-
 $prot = ($argv[2] == 'https') ? 'https' : 'http';
 
 switch (strtolower($argv[3])) {
@@ -43,12 +40,47 @@ switch (strtolower($argv[6])) {
   case 'version':
     $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=domain&action=get&key={$argv[4]}&api_key={$argv[5]}&return=version&json=1");
 
+    $latest = file_get_contents('http://latest.civicrm.org/stable.php?format=json');
+
     $a = json_decode($result, true);
     if ($a["is_error"] != 1 && is_array($a['values'])) {
       foreach ($a["values"] as $id => $attrib) {
         if (isset($attrib['version'])) {
-          $status = file_get_contents("$vstatus_server/?version={$attrib['version']}");
-          $status = json_decode($status);
+          $status = array(3, 'Unknown version status');
+          $latest = json_decode($latest, true);
+          ksort($latest, SORT_NUMERIC);
+          list($m, $mm) = explode('.', $attrib['version']);
+          if (isset($latest["{$m}.{$mm}"])) {
+            if (isset($latest["{$m}.{$mm}"]['status'])) {
+              if (version_compare("{$m}.{$mm}", '4.4') < 0) {
+                echo "Much newer version available (currently on {$attrib['version']})";
+                exit(2);
+              }
+              else {
+                if ($latest["{$m}.{$mm}"]['status'] == 'lts') {
+                  $latest["{$m}.{$mm}"]['status'] = 'LTS';
+                }
+                $versionDisplay = $attrib['version'] . ' ' . $latest["{$m}.{$mm}"]['status'];
+              }
+            }
+            else {
+              $versionDisplay = "{$attrib['version']} (unknown major version status)";
+            }
+            foreach ($latest["{$m}.{$mm}"]['releases'] as $info) {
+              if (version_compare($attrib['version'], $info['version']) < 0) {
+                if (isset($info['security']) && $info['security']) {
+                  $status = array(2, "Security upgrade needed (currently on $versionDisplay)");
+                  break;
+                }
+                else {
+                  $status = array(1, "Newer version available (currently on $versionDisplay)");
+                }
+              }
+              elseif (version_compare($attrib['version'], $info['version']) == 0) {
+                $status = array(0, "Version $versionDisplay up-to-date");
+              }
+            }
+          }
           echo $status[1];
           exit($status[0]);
         }
