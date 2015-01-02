@@ -1,5 +1,12 @@
 <?php
 
+/**
+* Copyright 2014-2015 AGH Strategies, LLC
+* Released under the Affero GNU Public License version 3
+* but with NO WARRANTY: neither the implied warranty of merchantability
+* nor fitness for a particular purpose
+*/
+
 require_once 'civimonitor.civix.php';
 
 /**
