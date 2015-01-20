@@ -115,6 +115,24 @@ switch (strtolower($argv[6])) {
     exit(3);
     break;
 
+  case 'extensions':
+    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=setting&action=get&key={$argv[4]}&api_key={$argv[5]}&return=lastCron&json=1");
+
+    $a = json_decode($result, true);
+
+    if ($a["is_error"] != 1 && is_array($a['values'])) {
+      foreach ($a["values"] as $attrib) {
+        echo filter_var($attrib['message'], FILTER_SANITIZE_STRING);
+        $exit = intval($attrib['status']);
+        if ($exit > 3 || $exit < 0 || !is_numeric($attrib['status'])) {
+          $exit = 3;
+          echo ' Unknown exit status';
+        }
+        exit($attrib['status']);
+      }
+    }
+    break;
+
   default:
     echo 'No command given';
     exit(3);
