@@ -51,6 +51,9 @@ function civicrm_api3_monitor_Getextensions($params) {
           $okextensions[] = $key;
         }
       }
+      else {
+        $okextensions[] = $key;
+      }
       break;
       default:
     }
@@ -63,7 +66,7 @@ function civicrm_api3_monitor_Getextensions($params) {
   elseif (!empty($okextensions)) {
     $msg .= '  Other extensions up-to-date: ' . implode(', ', $okextensions);
   }
-  
+
   $returnValues = array( // OK, return several data rows
     array('status' => $return, 'message' => $msg),
   );
