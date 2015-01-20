@@ -9,7 +9,7 @@
  * @see civicrm_api3_create_error
  * @throws API_Exception
  */
-function civicrm_api3_extension_MonitorStatus($params) {
+function civicrm_api3_extension_monitorstatus($params) {
   $mapper = CRM_Extension_System::singleton()->getMapper();
   $manager = CRM_Extension_System::singleton()->getManager();
   $remotes = CRM_Extension_System::singleton()->getBrowser()->getExtensions();
