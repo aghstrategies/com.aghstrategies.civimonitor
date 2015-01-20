@@ -18,7 +18,7 @@ function civicrm_api3_monitor_Getextensions($params) {
   sort($keys);
 
   $return = 0;
-  $msgArray = array();
+  $msgArray = $okextensions = array();
 
   foreach ($keys as $key) {
     try {
@@ -47,6 +47,9 @@ function civicrm_api3_monitor_Getextensions($params) {
           $return = ($return < 1) ? 1 : $return;
           $msgArray[] = ts('Extension (%1) is upgradeable to version %2.', array(1 => $key, 2 => $remotes[$key]->version));
         }
+        else {
+          $okextensions[] = $key;
+        }
       }
       break;
       default:
@@ -55,8 +58,12 @@ function civicrm_api3_monitor_Getextensions($params) {
 
   $msg = implode('  ', $msgArray);
   if (empty($msgArray)) {
-    $msg = 'Extensions up-to-date';
+    $msg = (empty($okextensions)) ? 'No extensions installed.' : 'Extensions up-to-date: ' . implode(', ', $okextensions);
   }
+  elseif (!empty($okextensions)) {
+    $msg .= '  Other extensions up-to-date: ' . implode(', ', $okextensions);
+  }
+  
   $returnValues = array( // OK, return several data rows
     array('status' => $return, 'message' => $msg),
   );
