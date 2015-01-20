@@ -38,21 +38,21 @@ function civicrm_api3_monitor_Getextensions($params) {
 
       case CRM_Extension_Manager::STATUS_INSTALLED_MISSING:
       $return = 2;
-      $msgArray[] = ts('Extension "%1" (%2) is installed but missing files.', array(1 => $row['label'], 2 => $key));
+      $msgArray[] = ts('%1 extension (%2) is installed but missing files.', array(1 => CRM_Utils_Array::value('label', $row), 2 => $key));
       continue;
 
       case CRM_Extension_Manager::STATUS_INSTALLED:
       if (CRM_Utils_Array::value($key, $remotes)) {
         if (version_compare($row['version'], $remotes[$key]->version, '<')) {
           $return = ($return < 1) ? 1 : $return;
-          $msgArray[] = ts('Extension "%1" (%2) is upgradeable to version %3.', array(1 => $row['label'], 2 => $key, 3 => $remotes[$key]->version));
+          $msgArray[] = ts('%1 extension (%2) is upgradeable to version %3.', array(1 => CRM_Utils_Array::value('label', $row), 2 => $key, 3 => $remotes[$key]->version));
         }
         else {
-          $okextensions[] = "{$row['label']} ($key)";
+          $okextensions[] = CRM_Utils_Array::value('label', $row) ? "{$row['label']} ($key)" : $key;
         }
       }
       else {
-        $okextensions[] = "{$row['label']} ($key)";
+        $okextensions[] = CRM_Utils_Array::value('label', $row) ? "{$row['label']} ($key)" : $key;
       }
       break;
       default:
