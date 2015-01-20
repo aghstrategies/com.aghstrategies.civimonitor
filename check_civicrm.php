@@ -128,9 +128,11 @@ switch (strtolower($argv[6])) {
           $exit = 3;
           echo ' Unknown exit status';
         }
-        exit($attrib['status']);
+        exit($exit);
       }
     }
+    echo 'Unknown error';
+    exit(3);
     break;
 
   default:
