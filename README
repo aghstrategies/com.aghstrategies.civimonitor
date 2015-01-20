@@ -15,6 +15,7 @@ and then services for the appropriate host(s) and/or hostgroup(s) that call thos
 
 Release Notes
 -------------
+1.2 - added check for out-of-date extensions
 
 1.1 - use the version system at latest.civicrm.org rather than having to provide your own version info
 
