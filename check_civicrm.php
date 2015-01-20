@@ -116,7 +116,7 @@ switch (strtolower($argv[6])) {
     break;
 
   case 'extensions':
-    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=setting&action=get&key={$argv[4]}&api_key={$argv[5]}&return=lastCron&json=1");
+    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=monitor&action=getextensions&key={$argv[4]}&api_key={$argv[5]}&json=1");
 
     $a = json_decode($result, true);
 
