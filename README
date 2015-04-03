@@ -11,12 +11,18 @@ An ideal version status site would evaluate both current-version and LTS series,
 After installing this extension, copy check_civicrm.php to your Nagios server, set up commands calling:
 - /usr/bin/php /usr/lib/nagios/plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ cron
 - /usr/bin/php /usr/lib/nagios/plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ version
+- /usr/bin/php /usr/lib/nagios/plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ paymentprocessors
+- /usr/bin/php /usr/lib/nagios/plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ extensions
+- /usr/bin/php /usr/lib/nagios/plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ mailing
 and then services for the appropriate host(s) and/or hostgroup(s) that call those commands.
 
 The contact used in the API request must have either "Administer CiviCRM" or "Access CiviMonitor" permissions.
 
 Release Notes
 -------------
+1.4 - added checks for mailing and payment processor
+      added "access CiviMonitor" permission (thanks mlutfy!)
+
 1.3 - fixed bugs in check_civicrm.php
 
 1.2 - added check for out-of-date extensions

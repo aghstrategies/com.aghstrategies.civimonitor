@@ -135,6 +135,95 @@ switch (strtolower($argv[6])) {
     exit(3);
     break;
 
+  case 'paymentprocessors':
+    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=PaymentProcessor&action=get&key={$argv[4]}&api_key={$argv[5]}&return.class_name=1&return.name=1&is_test=0&is_active=1&json=1");
+
+    $a = json_decode($result, true);
+
+    if ($a["is_error"] != 1 && is_array($a['values'])) {
+      $display = array();
+      foreach ($a["values"] as $id => $attrib) {
+        $echo = '';
+        if (!empty($attrib['name'])) {
+          $echo = $attrib['name'];
+          if (!empty($attrib['class_name'])) {
+            $echo .= " ({$attrib['class_name']})";
+          }
+        }
+        elseif (!empty($attrib['class_name'])) {
+          $echo = $attrib['class_name'];
+        }
+
+        if (strlen($echo)) {
+          $display[] = $echo;
+        }
+      }
+      if (count($display)) {
+        echo implode(', ', $display);
+        exit(0);
+      }
+      else {
+        echo 'No payment processors';
+        exit(1);
+      }
+    }
+    echo 'Unknown error';
+    exit(3);
+    break;
+
+  case 'mailing':
+    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=setting&action=get&key={$argv[4]}&api_key={$argv[5]}&return=mailing_backend&json=1");
+
+    $a = json_decode($result, true);
+
+    if ($a["is_error"] != 1 && is_array($a['values'])) {
+      foreach ($a["values"] as $id => $attrib) {
+        $attrib = $attrib['mailing_backend'];
+          switch ($attrib['outBound_option']) {
+            case 0:  // SMTP
+              if (!empty($attrib['smtpServer'])) {
+                echo "SMTP: {$attrib['smtpServer']}";
+                exit(0);
+              }
+              else {
+                echo "SMTP: no server set";
+                exit(2);
+              }
+              break;
+
+            case 1:  // Sendmail
+              if (!empty($attrib['sendmail_path'])) {
+                echo "Sendmail: {$attrib['sendmail_path']}";
+                exit(0);
+              }
+              else {
+                echo "Sendmail: no path set";
+                exit(2);
+              }
+              break;
+
+            case 2:  // Disabled
+            case 5:  // Redirect to database
+              echo 'Outbound mail disabled';
+              exit(2);
+              break;
+
+            case 3:  // mail()
+              echo 'PHP mail()';
+              exit(0);
+              break;
+
+            default:
+              echo 'Unknown mailer';
+              exit(3);
+          }
+      }
+    }
+    echo 'Unknown error';
+    exit(3);
+    break;
+
+
   default:
     echo 'No command given';
     exit(3);

@@ -130,18 +130,67 @@ function civimonitor_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
  * Implements hook_civicrm_alterAPIPermissions().
  */
 function civimonitor_civicrm_permission(&$permissions) {
-  $permissions += array(
-    'access CiviMonitor' => ts('Access CiviMonitor', array('domain' => 'com.aghstrategies.civimonitor')),
-  );
+  $version = CRM_Utils_System::version();
+  if (version_compare($version, '4.6.1') >= 0) {
+    $permissions += array(
+      'access CiviMonitor' => array(
+        ts('Access CiviMonitor', array('domain' => 'com.aghstrategies.civimonitor')),
+        ts('Grants the necessary API permissions for a monitoring user without Administer CiviCRM', array('domain' => 'com.aghstrategies.civimonitor')),
+      ),
+    );
+  }
+  else {
+    $permissions += array(
+      'access CiviMonitor' => ts('Access CiviMonitor', array('domain' => 'com.aghstrategies.civimonitor')),
+    );
+  }
 }
 
 /**
  * Implements hook_civicrm_alterAPIPermissions().
  */
 function civimonitor_civicrm_alterAPIPermissions($entity, $action, &$params, &$permissions) {
-  $permissions['setting'] = array(
-    'get' => array(
-      'access CiviMonitor',
-    ),
-  );
+  if (CRM_Core_Permission::check('administer CiviCRM')) {
+    return;
+  }
+
+  switch ($entity) {
+    case 'setting':
+      if ($action == 'get' && in_array($params['return'], array('lastCron', 'mailing_backend'))) {
+        $permissions['setting'] = array(
+          'get' => array(
+            'access CiviMonitor',
+          ),
+        );
+      }
+      break;
+
+    case 'domain':
+      if ($action == 'get' && $params['return'] == 'version') {
+        $permissions['domain'] = array(
+          'get' => array(
+            'access CiviMonitor',
+          ),
+        );
+      }
+      break;
+
+    case 'monitor':
+      $permissions['monitor'] = array(
+        'getextensions' => array(
+          'access CiviMonitor',
+        ),
+      );
+      break;
+
+    case 'payment_processor':
+      $permissions[$entity] = array(
+        'get' => array(
+          'access CiviMonitor',
+        ),
+      );
+      break;
+
+    default:
+  }
 }
