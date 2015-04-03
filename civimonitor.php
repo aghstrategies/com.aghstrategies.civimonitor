@@ -125,3 +125,23 @@ function civimonitor_civicrm_caseTypes(&$caseTypes) {
 function civimonitor_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
   _civimonitor_civix_civicrm_alterSettingsFolders($metaDataFolders);
 }
+
+/**
+ * Implements hook_civicrm_alterAPIPermissions().
+ */
+function civimonitor_civicrm_permission(&$permissions) {
+  $permissions += array(
+    'access CiviMonitor' => ts('Access CiviMonitor', array('domain' => 'com.aghstrategies.civimonitor')),
+  );
+}
+
+/**
+ * Implements hook_civicrm_alterAPIPermissions().
+ */
+function civimonitor_civicrm_alterAPIPermissions($entity, $action, &$params, &$permissions) {
+  $permissions['setting'] = array(
+    'get' => array(
+      'access CiviMonitor',
+    ),
+  );
+}
