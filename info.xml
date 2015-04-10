@@ -17,6 +17,7 @@
   <compatibility>
     <ver>4.4</ver>
     <ver>4.5</ver>
+    <ver>4.6</ver>
   </compatibility>
   <civix>
     <namespace>CRM/Civimonitor</namespace>
