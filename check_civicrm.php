@@ -172,53 +172,22 @@ switch (strtolower($argv[6])) {
     break;
 
   case 'mailing':
-    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=setting&action=get&key={$argv[4]}&api_key={$argv[5]}&return=mailing_backend&json=1");
+    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=monitor&action=getmailingbackend&key={$argv[4]}&api_key={$argv[5]}&json=1");
 
     $a = json_decode($result, true);
 
     if ($a["is_error"] != 1 && is_array($a['values'])) {
-      foreach ($a["values"] as $id => $attrib) {
-        $attrib = $attrib['mailing_backend'];
-          switch ($attrib['outBound_option']) {
-            case 0:  // SMTP
-              if (!empty($attrib['smtpServer'])) {
-                echo "SMTP: {$attrib['smtpServer']}";
-                exit(0);
-              }
-              else {
-                echo "SMTP: no server set";
-                exit(2);
-              }
-              break;
-
-            case 1:  // Sendmail
-              if (!empty($attrib['sendmail_path'])) {
-                echo "Sendmail: {$attrib['sendmail_path']}";
-                exit(0);
-              }
-              else {
-                echo "Sendmail: no path set";
-                exit(2);
-              }
-              break;
-
-            case 2:  // Disabled
-            case 5:  // Redirect to database
-              echo 'Outbound mail disabled';
-              exit(2);
-              break;
-
-            case 3:  // mail()
-              echo 'PHP mail()';
-              exit(0);
-              break;
-
-            default:
-              echo 'Unknown mailer';
-              exit(3);
-          }
+      foreach ($a["values"] as $attrib) {
+        echo filter_var($attrib['message'], FILTER_SANITIZE_STRING);
+        $exit = intval($attrib['status']);
+        if ($exit > 3 || $exit < 0 || !is_numeric($attrib['status'])) {
+          $exit = 3;
+          echo ' Unknown exit status';
+        }
+        exit($exit);
       }
     }
+
     echo 'Unknown error';
     exit(3);
     break;

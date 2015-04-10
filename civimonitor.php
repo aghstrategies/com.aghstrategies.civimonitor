@@ -156,7 +156,7 @@ function civimonitor_civicrm_alterAPIPermissions($entity, $action, &$params, &$p
 
   switch ($entity) {
     case 'setting':
-      if ($action == 'get' && in_array($params['return'], array('lastCron', 'mailing_backend'))) {
+      if ($action == 'get' && $params['return'] == 'lastCron') {
         $permissions['setting'] = array(
           'get' => array(
             'access CiviMonitor',
@@ -181,6 +181,9 @@ function civimonitor_civicrm_alterAPIPermissions($entity, $action, &$params, &$p
           'access CiviMonitor',
         ),
         'getpaymentprocessors' => array(
+          'access CiviMonitor',
+        ),
+        'getmailingbackend' => array(
           'access CiviMonitor',
         ),
       );
