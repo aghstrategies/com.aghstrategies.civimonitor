@@ -136,7 +136,7 @@ switch (strtolower($argv[6])) {
     break;
 
   case 'paymentprocessors':
-    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=PaymentProcessor&action=get&key={$argv[4]}&api_key={$argv[5]}&return.class_name=1&return.name=1&is_test=0&is_active=1&json=1");
+    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=monitor&action=getpaymentprocessors&key={$argv[4]}&api_key={$argv[5]}&json=1");
 
     $a = json_decode($result, true);
 
@@ -144,14 +144,14 @@ switch (strtolower($argv[6])) {
       $display = array();
       foreach ($a["values"] as $id => $attrib) {
         $echo = '';
-        if (!empty($attrib['name'])) {
-          $echo = $attrib['name'];
-          if (!empty($attrib['class_name'])) {
-            $echo .= " ({$attrib['class_name']})";
+        if (!empty($attrib['title'])) {
+          $echo = $attrib['title'];
+          if (!empty($attrib['type'])) {
+            $echo .= " ({$attrib['type']})";
           }
         }
-        elseif (!empty($attrib['class_name'])) {
-          $echo = $attrib['class_name'];
+        elseif (!empty($attrib['type'])) {
+          $echo = $attrib['type'];
         }
 
         if (strlen($echo)) {

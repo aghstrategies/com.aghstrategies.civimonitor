@@ -20,8 +20,8 @@ The contact used in the API request must have either "Administer CiviCRM" or "Ac
 
 Release Notes
 -------------
-1.5 - added check for system check
-      (includes debug enabled, time inconsistency, outbound mail, file permissions, and files that shouldn't exist)
+1.5 - added check for system check (includes debug enabled, time inconsistency, outbound mail, file permissions, and files that shouldn't exist)
+      rewrote payment processor check to provide better information (and require less permissions)
 
 1.4 - added checks for mailing and payment processor
       added "access CiviMonitor" permission (thanks mlutfy!)

@@ -180,12 +180,7 @@ function civimonitor_civicrm_alterAPIPermissions($entity, $action, &$params, &$p
         'getextensions' => array(
           'access CiviMonitor',
         ),
-      );
-      break;
-
-    case 'payment_processor':
-      $permissions[$entity] = array(
-        'get' => array(
+        'getpaymentprocessors' => array(
           'access CiviMonitor',
         ),
       );
