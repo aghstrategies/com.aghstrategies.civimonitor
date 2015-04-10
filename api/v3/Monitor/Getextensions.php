@@ -70,5 +70,5 @@ function civicrm_api3_monitor_Getextensions($params) {
   $returnValues = array( // OK, return several data rows
     array('status' => $return, 'message' => $msg),
   );
-  return civicrm_api3_create_success($returnValues, $params, 'NewEntity', 'NewAction');
+  return civicrm_api3_create_success($returnValues, $params, 'monitor', 'Getextensions');
 }
