@@ -191,6 +191,14 @@ function civimonitor_civicrm_alterAPIPermissions($entity, $action, &$params, &$p
       );
       break;
 
+    case 'system':
+      $permissions['system'] = array(
+        'check' => array(
+          'access CiviMonitor',
+        ),
+      );
+      break;
+
     default:
   }
 }

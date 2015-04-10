@@ -223,6 +223,60 @@ switch (strtolower($argv[6])) {
     exit(3);
     break;
 
+  case 'system':
+    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=system&action=check&key={$argv[4]}&api_key={$argv[5]}&json=1");
+
+    $a = json_decode($result, true);
+
+    if ($a["is_error"] != 1 && is_array($a['values'])) {
+      $exit = 0;
+
+      $message = array();
+      foreach ($a["values"] as $attrib) {
+
+        // first check for missing info
+        $neededKeys = array(
+          'title' => true,
+          'message' => true,
+          'name' => true,
+        );
+        if (array_intersect_key($neededKeys, $attrib) != $neededKeys) {
+          $message[] = 'Missing keys: ' . implode(', ', array_diff($neededKeys, array_intersect_key($neededKeys, $attrib))) . '.';
+          $exit = 3;
+          continue;
+        }
+
+        $message[] = filter_var($attrib['title'], FILTER_SANITIZE_STRING) . ': ' . filter_var($attrib['message'], FILTER_SANITIZE_STRING);
+
+        // temporarily setting this based upon message key
+        // future versions of CiviCRM are likely to send severity
+        switch ($attrib['name']) {
+          // warnings
+          case checkMysqlTime:
+            $exit = ($exit > 1) ? $exit : 1;
+            break;
+
+          // critical
+          case checkDebug:
+          case checkOutboundMail:
+          case checkLogFileIsNotAccessible:
+          case checkUploadsAreNotAccessible:
+          case checkDirectoriesAreNotBrowseable:
+          case checkFilesAreNotPresent:
+            $exit = ($exit > 2) ? $exit : 2;
+            break;
+
+          // assuming all others are warning
+          default:
+            $exit = ($exit > 1) ? $exit : 1;
+        }
+      }
+      echo implode(' / ', $message);
+      exit($exit);
+    }
+    echo 'Unknown error';
+    exit(3);
+    break;
 
   default:
     echo 'No command given';
