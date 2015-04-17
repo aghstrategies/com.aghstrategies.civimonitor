@@ -193,8 +193,23 @@ switch (strtolower($argv[6])) {
     break;
 
   case 'system':
-    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=system&action=check&key={$argv[4]}&api_key={$argv[5]}&json=1");
-
+    $request = array(
+      'entity' => 'system',
+      'action' => 'check',
+      'key' => $argv[4],
+      'api_key' => $argv[5],
+      'json' => 1,
+    );
+    $options = array(
+      'http' => array(
+        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+        'method'  => 'POST',
+        'content' => http_build_query($request),
+      ),
+    );
+    $context  = stream_context_create($options);
+    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php",false,$context);
+echo "result: $result";
     $a = json_decode($result, true);
 
     if ($a["is_error"] != 1 && is_array($a['values'])) {
