@@ -236,17 +236,17 @@ echo "result: $result";
         // future versions of CiviCRM are likely to send severity
         switch ($attrib['name']) {
           // warnings
-          case checkMysqlTime:
+          case "checkMysqlTime":
             $exit = ($exit > 1) ? $exit : 1;
             break;
 
           // critical
-          case checkDebug:
-          case checkOutboundMail:
-          case checkLogFileIsNotAccessible:
-          case checkUploadsAreNotAccessible:
-          case checkDirectoriesAreNotBrowseable:
-          case checkFilesAreNotPresent:
+          case "checkDebug":
+          case "checkOutboundMail":
+          case "checkLogFileIsNotAccessible":
+          case "checkUploadsAreNotAccessible":
+          case "checkDirectoriesAreNotBrowseable":
+          case "checkFilesAreNotPresent":
             $exit = ($exit > 2) ? $exit : 2;
             break;
 
