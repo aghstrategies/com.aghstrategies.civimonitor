@@ -96,6 +96,10 @@ switch (strtolower($argv[6])) {
 
     if ($a["is_error"] != 1 && is_array($a['values'])) {
       foreach ($a["values"] as $id => $attrib) {
+        if (empty($attrib['lastCron'])) {
+          echo 'Last cron date not found';
+          exit (3);
+        }
         if ($attrib['lastCron'] > gmdate('U') - 3600) {
           echo 'Last cron at ' . date('r', $attrib['lastCron']);
           exit(0);
