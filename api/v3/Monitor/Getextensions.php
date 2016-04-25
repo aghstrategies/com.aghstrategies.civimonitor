@@ -34,27 +34,28 @@ function civicrm_api3_monitor_Getextensions($params) {
       case CRM_Extension_Manager::STATUS_UNINSTALLED:
       case CRM_Extension_Manager::STATUS_DISABLED:
       case CRM_Extension_Manager::STATUS_DISABLED_MISSING:
-      continue 2;
+        continue 2;
 
       case CRM_Extension_Manager::STATUS_INSTALLED_MISSING:
-      $return = 2;
-      $msgArray[] = ts('%1 extension (%2) is installed but missing files.', array(1 => CRM_Utils_Array::value('label', $row), 2 => $key));
-      continue;
+        $return = 2;
+        $msgArray[] = ts('%1 extension (%2) is installed but missing files.', array(1 => CRM_Utils_Array::value('label', $row), 2 => $key));
+        continue;
 
       case CRM_Extension_Manager::STATUS_INSTALLED:
-      if (CRM_Utils_Array::value($key, $remotes)) {
-        if (version_compare($row['version'], $remotes[$key]->version, '<')) {
-          $return = ($return < 1) ? 1 : $return;
-          $msgArray[] = ts('%1 extension (%2) is upgradeable to version %3.', array(1 => CRM_Utils_Array::value('label', $row), 2 => $key, 3 => $remotes[$key]->version));
+        if (CRM_Utils_Array::value($key, $remotes)) {
+          if (version_compare($row['version'], $remotes[$key]->version, '<')) {
+            $return = ($return < 1) ? 1 : $return;
+            $msgArray[] = ts('%1 extension (%2) is upgradeable to version %3.', array(1 => CRM_Utils_Array::value('label', $row), 2 => $key, 3 => $remotes[$key]->version));
+          }
+          else {
+            $okextensions[] = CRM_Utils_Array::value('label', $row) ? "{$row['label']} ($key)" : $key;
+          }
         }
         else {
           $okextensions[] = CRM_Utils_Array::value('label', $row) ? "{$row['label']} ($key)" : $key;
         }
-      }
-      else {
-        $okextensions[] = CRM_Utils_Array::value('label', $row) ? "{$row['label']} ($key)" : $key;
-      }
-      break;
+        break;
+
       default:
     }
   }
@@ -67,7 +68,8 @@ function civicrm_api3_monitor_Getextensions($params) {
     $msg .= '  Other extensions up-to-date: ' . implode(', ', $okextensions);
   }
 
-  $returnValues = array( // OK, return several data rows
+  $returnValues = array(
+    // OK, return several data rows
     array('status' => $return, 'message' => $msg),
   );
   return civicrm_api3_create_success($returnValues, $params, 'monitor', 'Getextensions');
