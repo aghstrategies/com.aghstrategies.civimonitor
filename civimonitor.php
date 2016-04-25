@@ -16,6 +16,7 @@ function civimonitor_civicrm_cron($jobManager) {
   $params = array(
     'version' => 3,
     'lastCron' => gmdate('U'),
+    'group_name' => 'civimonitor'
   );
   $result = civicrm_api('Setting', 'create', $params);
 }
