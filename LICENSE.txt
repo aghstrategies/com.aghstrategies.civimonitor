@@ -1,5 +1,5 @@
 Package: com.aghstrategies.civimonitor
-Copyright (C) 2014, Andrew Hunt <andrew@aghstrategies.com>
+Copyright (C) 2014-2016, Andrew Hunt <andrew@aghstrategies.com>
 Licensed under the GNU Affero Public License 3.0 (below).
 
 -------------------------------------------------------------------------------

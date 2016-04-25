@@ -20,7 +20,8 @@ function civicrm_api3_monitor_Getmailingbackend($params) {
       foreach ($result['values'] as $settings) {
         $attrib = $settings['mailing_backend'];
         switch ($attrib['outBound_option']) {
-          case 0:  // SMTP
+          case 0:
+            // SMTP
             if (!empty($attrib['smtpServer'])) {
               $return = array(
                 'message' => "SMTP: {$attrib['smtpServer']}",
@@ -35,7 +36,8 @@ function civicrm_api3_monitor_Getmailingbackend($params) {
             }
             break 2;
 
-          case 1:  // Sendmail
+          case 1:
+            // Sendmail
             if (!empty($attrib['sendmail_path'])) {
               $return = array(
                 'message' => "Sendmail: {$attrib['sendmail_path']}",
@@ -50,15 +52,18 @@ function civicrm_api3_monitor_Getmailingbackend($params) {
             }
             break 2;
 
-          case 2:  // Disabled
-          case 5:  // Redirect to database
+          case 2:
+            // Disabled
+          case 5:
+            // Redirect to database
             $return = array(
               'message' => 'Outbound mail disabled',
               'status' => 2,
             );
             break 2;
 
-          case 3:  // mail()
+          case 3:
+            // mail()
             $return = array(
               'message' => 'PHP mail()',
               'status' => 0,

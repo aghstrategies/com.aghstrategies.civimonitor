@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2014-2015 AGH Strategies, LLC
+ * Copyright 2014-2016 AGH Strategies, LLC
  * Released under the Affero GNU Public License version 3
  * but with NO WARRANTY: neither the implied warranty of merchantability
  * nor fitness for a particular purpose
@@ -28,7 +28,7 @@ switch (strtolower($argv[3])) {
     break;
 
   case 'wordpress':
-    $path ='wp-content/plugins/civicrm/civicrm';
+    $path = 'wp-content/plugins/civicrm/civicrm';
     break;
 
   case 'drupal':
@@ -42,12 +42,12 @@ switch (strtolower($argv[6])) {
 
     $latest = file_get_contents('http://latest.civicrm.org/stable.php?format=json');
 
-    $a = json_decode($result, true);
+    $a = json_decode($result, TRUE);
     if ($a["is_error"] != 1 && is_array($a['values'])) {
       foreach ($a["values"] as $id => $attrib) {
         if (isset($attrib['version'])) {
           $status = array(3, 'Unknown version status');
-          $latest = json_decode($latest, true);
+          $latest = json_decode($latest, TRUE);
           ksort($latest, SORT_NUMERIC);
           list($m, $mm) = explode('.', $attrib['version']);
           if (isset($latest["{$m}.{$mm}"])) {
@@ -88,12 +88,11 @@ switch (strtolower($argv[6])) {
     }
     echo 'Unknown error';
     exit(3);
-    break;
 
   case 'cron':
     $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=setting&action=get&key={$argv[4]}&api_key={$argv[5]}&return=lastCron&json=1");
 
-    $a = json_decode($result, true);
+    $a = json_decode($result, TRUE);
 
     if ($a["is_error"] != 1 && is_array($a['values'])) {
       foreach ($a["values"] as $id => $attrib) {
@@ -113,12 +112,11 @@ switch (strtolower($argv[6])) {
     }
     echo 'Unknown error';
     exit(3);
-    break;
 
   case 'extensions':
     $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=monitor&action=getextensions&key={$argv[4]}&api_key={$argv[5]}&json=1");
 
-    $a = json_decode($result, true);
+    $a = json_decode($result, TRUE);
 
     if ($a["is_error"] != 1 && is_array($a['values'])) {
       foreach ($a["values"] as $attrib) {
@@ -133,12 +131,11 @@ switch (strtolower($argv[6])) {
     }
     echo 'Unknown error';
     exit(3);
-    break;
 
   case 'paymentprocessors':
     $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=monitor&action=getpaymentprocessors&key={$argv[4]}&api_key={$argv[5]}&json=1");
 
-    $a = json_decode($result, true);
+    $a = json_decode($result, TRUE);
 
     if ($a["is_error"] != 1 && is_array($a['values'])) {
       $display = array();
@@ -169,12 +166,11 @@ switch (strtolower($argv[6])) {
     }
     echo 'Unknown error';
     exit(3);
-    break;
 
   case 'mailing':
     $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=monitor&action=getmailingbackend&key={$argv[4]}&api_key={$argv[5]}&json=1");
 
-    $a = json_decode($result, true);
+    $a = json_decode($result, TRUE);
 
     if ($a["is_error"] != 1 && is_array($a['values'])) {
       foreach ($a["values"] as $attrib) {
@@ -190,7 +186,6 @@ switch (strtolower($argv[6])) {
 
     echo 'Unknown error';
     exit(3);
-    break;
 
   case 'system':
     $request = array(
@@ -208,8 +203,8 @@ switch (strtolower($argv[6])) {
       ),
     );
     $context  = stream_context_create($options);
-    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php",false,$context);
-    $a = json_decode($result, true);
+    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php", FALSE, $context);
+    $a = json_decode($result, TRUE);
 
     if ($a["is_error"] != 1 && is_array($a['values'])) {
       $exit = 0;
@@ -219,9 +214,9 @@ switch (strtolower($argv[6])) {
 
         // first check for missing info
         $neededKeys = array(
-          'title' => true,
-          'message' => true,
-          'name' => true,
+          'title' => TRUE,
+          'message' => TRUE,
+          'name' => TRUE,
         );
         if (array_intersect_key($neededKeys, $attrib) != $neededKeys) {
           $message[] = 'Missing keys: ' . implode(', ', array_diff($neededKeys, array_intersect_key($neededKeys, $attrib))) . '.';
@@ -259,7 +254,6 @@ switch (strtolower($argv[6])) {
     }
     echo 'Unknown error';
     exit(3);
-    break;
 
   default:
     echo 'No command given';
