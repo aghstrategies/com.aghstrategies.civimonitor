@@ -209,7 +209,6 @@ switch (strtolower($argv[6])) {
     );
     $context  = stream_context_create($options);
     $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php",false,$context);
-echo "result: $result";
     $a = json_decode($result, true);
 
     if ($a["is_error"] != 1 && is_array($a['values'])) {
