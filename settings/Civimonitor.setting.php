@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Settings metadata for com.aghstrategies.eventpermissions.
+ * Settings metadata for com.aghstrategies.civimonitor.
  */
 
 return array(

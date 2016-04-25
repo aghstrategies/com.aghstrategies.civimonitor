@@ -253,7 +253,7 @@ switch (strtolower($argv[6])) {
             $exit = ($exit > 1) ? $exit : 1;
         }
       }
-      if($exit == 0) {
+      if ($exit == 0) {
         array_unshift($message, 'OK');
       }
       echo implode(' / ', $message);
