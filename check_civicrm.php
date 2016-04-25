@@ -46,7 +46,7 @@ switch (strtolower($argv[6])) {
     if ($a["is_error"] != 1 && is_array($a['values'])) {
       foreach ($a["values"] as $id => $attrib) {
         if (isset($attrib['version'])) {
-          $status = array(3, 'Unknown version status');
+          $status = array(3, "Unknown version status ({$attrib['version']})");
           $latest = json_decode($latest, TRUE);
           ksort($latest, SORT_NUMERIC);
           list($m, $mm) = explode('.', $attrib['version']);
