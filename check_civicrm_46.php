@@ -9,9 +9,9 @@
  * Place in /usr/lib/nagios/plugins
  *
  * Call with the commands:
- * /usr/bin/php /usr/lib/nagios/plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ cron
+ * /usr/bin/php /usr/lib/nagios/plugins/check_civicrm_46.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ cron
  * and
- * /usr/bin/php /usr/lib/nagios/plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ version
+ * /usr/bin/php /usr/lib/nagios/plugins/check_civicrm_46.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ version
  *
  * in the host definition, provide the following custom variables:
  * _http      [http|https]
