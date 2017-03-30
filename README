@@ -6,13 +6,13 @@ This is a CiviCRM extension to make it possible for a Nagios monitoring system t
 - if a payment processor is set up
 - if CiviCRM's system check produces any notices
 
-After installing this extension, copy check_civicrm_46.php to your Nagios server, set up commands calling:
-- /usr/bin/php path-to-nagios-plugins/check_civicrm_46.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ cron
-- /usr/bin/php path-to-nagios-plugins/check_civicrm_46.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ version
-- /usr/bin/php path-to-nagios-plugins/check_civicrm_46.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ paymentprocessors
-- /usr/bin/php path-to-nagios-plugins/check_civicrm_46.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ extensions
-- /usr/bin/php path-to-nagios-plugins/check_civicrm_46.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ mailing
-- /usr/bin/php path-to-nagios-plugins/check_civicrm_46.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ system
+After installing this extension, copy check_civicrm.php to your Nagios server, set up commands calling:
+- /usr/bin/php path-to-nagios-plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ cron
+- /usr/bin/php path-to-nagios-plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ version
+- /usr/bin/php path-to-nagios-plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ paymentprocessors
+- /usr/bin/php path-to-nagios-plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ extensions
+- /usr/bin/php path-to-nagios-plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ mailing
+- /usr/bin/php path-to-nagios-plugins/check_civicrm.php $HOSTADDRESS$ $_HOSTHTTP$ $_HOSTCMS$ $_HOSTSITE_KEY$ $_HOSTAPI_KEY$ system
 
 and then services for the appropriate host(s) and/or hostgroup(s) that call those commands.
 
@@ -27,7 +27,7 @@ Release Notes
 1.4 - added checks for mailing and payment processor
       added "access CiviMonitor" permission (thanks mlutfy!)
 
-1.3 - fixed bugs in check_civicrm_46.php
+1.3 - fixed bugs in check_civicrm.php
 
 1.2 - added check for out-of-date extensions
 
