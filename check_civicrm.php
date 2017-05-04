@@ -21,6 +21,9 @@
  */
 
 $prot = ($argv[2] == 'https') ? 'https' : 'http';
+// Specify a user header for file_get_contents.
+$userAgent = array('http' => array('user_agent' => 'CiviMonitor'));
+$streamContext = stream_context_create($userAgent);
 
 switch (strtolower($argv[3])) {
   case 'joomla':
@@ -38,7 +41,7 @@ switch (strtolower($argv[3])) {
 
 switch (strtolower($argv[6])) {
   case 'version':
-    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=domain&action=get&key={$argv[4]}&api_key={$argv[5]}&return=version&json=1");
+    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=domain&action=get&key={$argv[4]}&api_key={$argv[5]}&return=version&json=1",false,$streamContext);
 
     $latest = file_get_contents('http://latest.civicrm.org/stable.php?format=json');
 
@@ -90,7 +93,7 @@ switch (strtolower($argv[6])) {
     exit(3);
 
   case 'cron':
-    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=setting&action=get&key={$argv[4]}&api_key={$argv[5]}&return=lastCron&json=1");
+    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=setting&action=get&key={$argv[4]}&api_key={$argv[5]}&return=lastCron&json=1",false,$streamContext);
 
     $a = json_decode($result, TRUE);
 
@@ -118,7 +121,7 @@ switch (strtolower($argv[6])) {
     exit(3);
 
   case 'extensions':
-    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=monitor&action=getextensions&key={$argv[4]}&api_key={$argv[5]}&json=1");
+    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=monitor&action=getextensions&key={$argv[4]}&api_key={$argv[5]}&json=1",false,$streamContext);
 
     $a = json_decode($result, TRUE);
 
@@ -137,7 +140,7 @@ switch (strtolower($argv[6])) {
     exit(3);
 
   case 'paymentprocessors':
-    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=monitor&action=getpaymentprocessors&key={$argv[4]}&api_key={$argv[5]}&json=1");
+    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=monitor&action=getpaymentprocessors&key={$argv[4]}&api_key={$argv[5]}&json=1",false,$streamContext);
 
     $a = json_decode($result, TRUE);
 
@@ -172,7 +175,7 @@ switch (strtolower($argv[6])) {
     exit(3);
 
   case 'mailing':
-    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=monitor&action=getmailingbackend&key={$argv[4]}&api_key={$argv[5]}&json=1");
+    $result = file_get_contents("$prot://{$argv[1]}/$path/extern/rest.php?entity=monitor&action=getmailingbackend&key={$argv[4]}&api_key={$argv[5]}&json=1",false,$streamContext);
 
     $a = json_decode($result, TRUE);
 
@@ -201,7 +204,7 @@ switch (strtolower($argv[6])) {
     );
     $options = array(
       'http' => array(
-        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+        'header'  => "Content-type: application/x-www-form-urlencoded\r\nUser-Agent: CiviMonitor\r\n",
         'method'  => 'POST',
         'content' => http_build_query($request),
       ),
